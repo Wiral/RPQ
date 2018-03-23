@@ -25,6 +25,7 @@ public:
 	void quickSort();					//sorts _tasks array using quicksort (by _r values)
 	int twoOpt();						//sorts _tasks array using 2opt method and returns cMax
 	void shrageSort();					//sort _tasks using shrege algoritm
+	void shrageSort_prmt();
 	void printTasks();
 };
 
@@ -141,6 +142,69 @@ void RPQproc::printTasks(){
 
 }
 
+
+void RPQproc::shrageSort_prmt(){
+	int i = 0;
+	int j = 0;
+	int time_stamp = 0;
+	int interrupt_time = 0;
+	RPQtask *sorted_tasks = new RPQtask[_numTasks];
+	std::priority_queue<RPQtask, std::vector<RPQtask>, RPQtask::LessThanQ> q; // queue sorting elements from biggest _q to lowest
+
+	quickSort(); // sort _tasks by _r value
+
+	while (i < _numTasks || !q.empty()) {
+		while (i < _numTasks) { //add to queue all tasks that are already prepared
+			if (_tasks[i].r() <= time_stamp) {
+				q.push(_tasks[i]);
+				i++;
+			} else {
+				break;
+			}
+		}
+
+		if (!q.empty()) {
+			sorted_tasks[j] = q.top(); 	//copy the task with the biggest _q
+			q.pop(); 	//delete from queue
+
+			if (j > 0)
+				sorted_tasks[j].setStart(std::max(sorted_tasks[j].r(), sorted_tasks[j - 1].start() + sorted_tasks[j - 1].p())); //update start time in new array
+			time_stamp = sorted_tasks[j].start() + sorted_tasks[j].p(); //update time stamp
+
+			while (i < _numTasks) { //add to queue all tasks that were prepared during the processing of the task
+				if (_tasks[i].r() < time_stamp) {
+					q.push(_tasks[i]);
+					i++;
+				} else {
+					break;
+				}
+
+				if (!q.empty()) {
+					if (q.top().q() > sorted_tasks[j].q()) {//if the task added during the latest task processing has bigger q
+						interrupt_time = q.top().r();
+						time_stamp = q.top().r(); //update time stamp
+						RPQtask t(0, (sorted_tasks[j].p() + sorted_tasks[j].start() - interrupt_time), sorted_tasks[j].q());
+						sorted_tasks[j].setP(interrupt_time - sorted_tasks[j].start()); //leave the part of the task that was already processed
+						sorted_tasks[j].setQ(0);
+						q.push(t);											//add the remaining task back to queue
+					}
+				}
+
+			}
+
+			j++;
+
+		} else { //if no tasks were prepared after the last one finished processsing
+			time_stamp = _tasks[i].r();
+		}
+
+	} //end while
+
+	delete[] _tasks;
+	_tasks = sorted_tasks;	//make new array the original one
+}
+
 #endif /* RPQproc_H_ */
 
+//wez z kolejki, set start,
 

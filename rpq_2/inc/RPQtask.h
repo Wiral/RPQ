@@ -11,6 +11,8 @@ public:
 	RPQtask( int r, int p, int q): _r(r), _start(r), _p(p), _q(q) {} //init with default times for the current process, init starting time with the preparing time
 	RPQtask(): _r(0), _start(0), _p(0), _q(0){}
 	void setR( int r) { _r = r;}
+	void setP( int p) { _p = p;}
+	void setQ( int q) { _q = q;}
 	void setStart( int start){_start = start;}
 	const int r() const {return _r;}
 	const int p() const {return _p;}
