@@ -21,23 +21,19 @@ int main() {
 			if (file.is_open()) {//open file and read data. Save it to the txt file.
 				std::cout << "==== " << path << " ====" << std::endl;
 				RPQproc process(file);
-				process.shrageSort();
-				std::cout << "time: " << process.procTime() <<std::endl;
-				process.shrageSort_prmt();
+				output << process.numTasks();
+				TIMER_START
+				process.schrageSort();
+				val = process.procTime();
+				TIMER_STOP
 
-				std::cout << "time shrage_prmt: " << process.procTime() <<std::endl;
-//				TIMER_START
-//				val = process.twoOpt();
-//				TIMER_STOP
-//
-//				output << process.numTasks() << " & " << val << " & " << elapsedTime << " & ";
-//
-//				TIMER_START
-//				process.quickSort();
-//				val = process.procTime();
-//				TIMER_STOP
-//
-//				output << val << " & " << elapsedTime << " \\\\" << std::endl;
+				output << " & " << val << " & " << elapsedTime << " & ";
+
+				TIMER_START
+				process.schrageSort_prmt();
+				val = process.procTime();
+				TIMER_STOP
+				output << val << " & " << elapsedTime << " \\\\" << std::endl;
 				file.close();
 			}
 		}

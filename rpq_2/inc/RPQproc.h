@@ -30,8 +30,8 @@ public:
 	void refresh();	//relaods _start flied of RPQtasks in array with their _r values
 	void quickSort();		//sorts _tasks array using quicksort (by _r values)
 	int twoOpt();		//sorts _tasks array using 2opt method and returns cMax
-	void shrageSort();					//sort _tasks using shrege algoritm
-	void shrageSort_prmt();				//sort _task using shrage algoritm (prmt variation)
+	void schrageSort();					//sort _tasks using shrege algoritm
+	void schrageSort_prmt();				//sort _task using schrage algoritm (prmt variation)
 	void printTasks();
 };
 
@@ -102,7 +102,7 @@ int RPQproc::twoOpt() {
 	return cMax;
 }
 
-void RPQproc::shrageSort() {
+void RPQproc::schrageSort() {
 	int i = 0;
 	int j = 0;
 	int time_stamp = 0;
@@ -148,7 +148,7 @@ void RPQproc::printTasks() {
 
 }
 
-void RPQproc::shrageSort_prmt() {
+void RPQproc::schrageSort_prmt() {
 	int i = 0;
 	int j = 0;
 	int time_stamp = 0;
